@@ -26,7 +26,7 @@ defmodule Edict.Redis.Protocol.Parser do
           ok(value, rest)
 
         value ->
-          {:read, length - byte_size(value)}
+          {:read, length - byte_size(value) + 2}
       end
     end)
   end

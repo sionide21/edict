@@ -49,8 +49,8 @@ defmodule Edict.Redis.ProtocolTest do
     end
 
     test "partial bulk strings" do
-      assert Protocol.parse("$6\r\n") == {:read, 6}
-      assert Protocol.parse("$12\r\nfoobar\r\n") == {:read, 4}
+      assert Protocol.parse("$6\r\n") == {:read, 8}
+      assert Protocol.parse("$12\r\nfoobar\r\n") == {:read, 6}
     end
 
     test "partial counts on bulk strings" do
@@ -61,7 +61,7 @@ defmodule Edict.Redis.ProtocolTest do
       assert Protocol.parse(<<"$4\r\n", 197, 130, 0, 255, "\r\n">>) ==
                {:ok, <<197, 130, 0, 255>>, ""}
 
-      assert Protocol.parse(<<"$6\r\n", 197, 130, "\r\n">>) == {:read, 2}
+      assert Protocol.parse(<<"$6\r\n", 197, 130, "\r\n">>) == {:read, 4}
     end
 
     test "arrays" do
@@ -77,7 +77,7 @@ defmodule Edict.Redis.ProtocolTest do
       assert Protocol.parse("*2\r\n") == :readline
       assert Protocol.parse("*2\r\n$3\r\nfoo\r\n") == :readline
 
-      assert Protocol.parse("*5\r\n:1\r\n:2\r\n:3\r\n:4\r\n$6\r\n") == {:read, 6}
+      assert Protocol.parse("*5\r\n:1\r\n:2\r\n:3\r\n:4\r\n$6\r\n") == {:read, 8}
     end
 
     test "arrays pass remainder" do
