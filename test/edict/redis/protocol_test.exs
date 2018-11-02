@@ -53,6 +53,10 @@ defmodule Edict.Redis.ProtocolTest do
       assert Protocol.parse("$12\r\nfoobar\r\n") == {:read, 4}
     end
 
+    test "partial counts on bulk strings" do
+      assert Protocol.parse("$6") == :readline
+    end
+
     test "bulk strings are binary safe" do
       assert Protocol.parse(<<"$4\r\n", 197, 130, 0, 255, "\r\n">>) ==
                {:ok, <<197, 130, 0, 255>>, ""}
