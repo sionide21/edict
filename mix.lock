@@ -1,0 +1,6 @@
+%{
+  "codex": {:git, "git@github.com:SalesLoft/codex", "3f29b3da8251b3b2477902a81dd206bf4636511b", []},
+  "kafka_ex": {:hex, :kafka_ex, "0.8.3", "16946ec8c50adf8ff5b858b28cff85ed93b16785004b2be1c9959cd2d704a462", [:mix], [], "hexpm"},
+  "mockery": {:hex, :mockery, "2.3.0", "f1af3976916e7402427116f491e3038a251857de8f0836952c2fa24ad6de4317", [:mix], [], "hexpm"},
+  "ranch": {:hex, :ranch, "1.6.2", "6db93c78f411ee033dbb18ba8234c5574883acb9a75af0fb90a9b82ea46afa00", [:rebar3], [], "hexpm"},
+}
