@@ -1,19 +1,24 @@
 defmodule Edict.Application do
-  # See https://hexdocs.pm/elixir/Application.html
-  # for more information on OTP Applications
   @moduledoc false
-
   use Application
+  alias Edict.HealthCheck
+  alias Edict.Redis.Connection
 
   def start(_type, _args) do
-    # List all child processes to be supervised
     children = [
-      # Starts a worker by calling: Edict.Worker.start_link(arg)
-      # {Edict.Worker, arg},
+      {Codex, Edict.Config.topic()},
+      :ranch.child_spec(Connection, :ranch_tcp, [port: Edict.Config.redis_port()], Connection,
+        handler: Edict.Commands
+      ),
+      :ranch.child_spec(
+        HealthCheck,
+        :ranch_tcp,
+        [port: Edict.Config.healthcheck_port()],
+        HealthCheck,
+        []
+      )
     ]
 
-    # See https://hexdocs.pm/elixir/Supervisor.html
-    # for other strategies and supported options
     opts = [strategy: :one_for_one, name: Edict.Supervisor]
     Supervisor.start_link(children, opts)
   end
